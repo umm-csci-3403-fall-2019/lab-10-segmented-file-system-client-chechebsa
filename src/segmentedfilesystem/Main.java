@@ -18,10 +18,20 @@ public class Main {
             return;
         }
 
-        socket = new DatagramSocket();
-        address = InetAddress.getByName(args[0]);
-        packet = new DatagramPacket(sendBuf, sendBuf.length, address, port);
-        socket.send(packet);
+        try {
+            socket = new DatagramSocket();
+        } catch (SocketException e) {
+            System.err.println("Socket failed to open\n" + e);
+        }
+
+        try {
+            address = InetAddress.getByName(args[0]);
+            packet = new DatagramPacket(sendBuf, sendBuf.length, address, port);
+            socket.send(packet);
+        } catch (IOException e) {
+            System.err.println("Header packet is not sent to the server\n" + e);
+            return;
+        }
 
     }
 
